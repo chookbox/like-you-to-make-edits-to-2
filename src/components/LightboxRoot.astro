@@ -1,0 +1,96 @@
+---
+/**
+ * The lightbox target. Include once per page that has expandable images.
+ *
+ * Deliberately a native <dialog> rather than a hand-rolled overlay. `showModal()`
+ * gives Escape-to-close, focus containment and background inerting for free — none
+ * of which is visible to a mouse user, all of which matters to everyone else. The
+ * brief was "no UI", which is honored: there is no close button, no caption bar,
+ * no chrome. Clicking anywhere outside the image closes it.
+ *
+ * One dialog and one listener serve every image on the page via delegation, so
+ * adding a figure costs nothing at runtime.
+ */
+---
+
+<dialog
+  id="lightbox"
+  aria-label="Expanded image"
+  class="fixed inset-0 m-0 h-full max-h-none w-full max-w-none bg-transparent p-4 backdrop:bg-black/85 md:p-10"
+>
+  <img
+    id="lightbox-img"
+    src=""
+    alt=""
+    class="mx-auto block h-auto max-h-full w-auto max-w-full object-contain"
+  />
+</dialog>
+
+<style>
+  /* The image itself should not read as clickable — only the space around it. */
+  #lightbox {
+    cursor: zoom-out;
+  }
+  #lightbox-img {
+    cursor: default;
+  }
+
+  #lightbox[open] {
+    animation: lightbox-in 180ms var(--ease-standard);
+  }
+  #lightbox[open]::backdrop {
+    animation: lightbox-in 180ms var(--ease-standard);
+  }
+
+  @keyframes lightbox-in {
+    from {
+      opacity: 0;
+    }
+  }
+</style>
+
+<script>
+  const dialog = document.getElementById("lightbox") as HTMLDialogElement | null;
+  const target = document.getElementById("lightbox-img") as HTMLImageElement | null;
+
+  if (dialog && target) {
+    document.addEventListener("click", (event) => {
+      const trigger = (event.target as HTMLElement).closest<HTMLElement>(
+        "[data-lightbox]",
+      );
+      if (!trigger) return;
+
+      const full = trigger.dataset.lightbox;
+      const alt = trigger.querySelector("img")?.alt ?? "";
+      if (!full) return;
+
+      target.src = full;
+      target.alt = alt;
+      dialog.showModal();
+    });
+
+    // Drop the source once closed, so a large image isn't held in memory and the
+    // next open never flashes the previous one.
+    //
+    // Bound to every close path rather than relying on the `close` event alone —
+    // that event proved unreliable when driven programmatically, and a cleanup
+    // that only sometimes runs is worse than one that plainly does.
+    const reset = () => {
+      target.removeAttribute("src");
+      target.alt = "";
+    };
+
+    // Clicking the backdrop or the padding around the image closes it. Clicks on
+    // the image itself land on <img>, not <dialog>, so they pass through.
+    dialog.addEventListener("click", (event) => {
+      if (event.target === dialog) {
+        dialog.close();
+        reset();
+      }
+    });
+
+    // Escape fires `cancel` before the dialog closes.
+    dialog.addEventListener("cancel", reset);
+    dialog.addEventListener("close", reset);
+  }
+</script>

@@ -1,0 +1,113 @@
+---
+import "../styles/global.css";
+import { getImage } from "astro:assets";
+import type { ImageMetadata } from "astro";
+import { SITE } from "../consts";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import GridOverlay from "../components/GridOverlay.astro";
+import defaultOg from "../assets/portrait.jpg";
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Suppress the blueprint grid on pages where imagery should sit alone. */
+  grid?: boolean;
+  noIndex?: boolean;
+  /** Link-preview image. Case studies pass their cover; others fall back to the portrait. */
+  ogImage?: ImageMetadata;
+  ogImageAlt?: string;
+  /** Crop anchor for the 1200×630 preview. See the note below. */
+  ogImagePosition?: string;
+}
+
+const {
+  title,
+  description = SITE.description,
+  grid = true,
+  noIndex = false,
+  ogImage,
+  ogImageAlt,
+  ogImagePosition,
+} = Astro.props;
+
+const pageTitle = title === SITE.name ? title : `${title} — ${SITE.name}`;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? SITE.url);
+
+/**
+ * Link previews.
+ *
+ * `twitter:card` is `summary_large_image`, which requires an image — without one
+ * every shared link renders as a blank card. Facebook, LinkedIn, Slack and iMessage
+ * all read these tags, so for a portfolio being sent to hiring managers this is the
+ * difference between a link that looks finished and one that doesn't.
+ *
+ * 1200×630 is the ratio every major platform crops to. Anchoring matters: product
+ * screenshots crop from the top, so the branding and the first meaningful row stay
+ * in frame instead of the crop landing on empty chrome. The portrait is a square
+ * and needs centering — a top anchor cuts the chin off.
+ */
+const ogSource = ogImage ?? defaultOg;
+const ogRendered = await getImage({
+  src: ogSource,
+  width: 1200,
+  height: 630,
+  fit: "cover",
+  position: ogImagePosition ?? (ogImage ? "top" : "center"),
+  format: "jpg",
+});
+const ogUrl = new URL(ogRendered.src, Astro.site ?? SITE.url);
+const ogAlt = ogImageAlt ?? `${SITE.name} — ${SITE.role}`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogAlt} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogUrl} />
+    <meta name="twitter:image:alt" content={ogAlt} />
+
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    {/*
+      Applies a stored theme override before first paint. Without this the page
+      renders in the OS theme and then snaps to the saved one — a visible flash
+      on every navigation. Kept inline and dependency-free for that reason.
+    */}
+    <script is:inline>
+      try {
+        const stored = localStorage.getItem("theme");
+        if (stored === "light" || stored === "dark") {
+          document.documentElement.dataset.theme = stored;
+        }
+      } catch {}
+    </script>
+  </head>
+
+  <body>
+    {grid && <GridOverlay />}
+    <Nav />
+    <main id="main" class="relative z-10 flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,212 @@
+---
+title: "Follow-Up Stories"
+impactHeadline: "Let people interrogate their own data by asking in plain language"
+summary: "Building an AI-powered analytics experience for people to explore their data through language."
+company: "Narrative Science"
+year: "2020"
+domain: "AI · Interaction design"
+role: "Senior Product Designer"
+ownership: "I owned the user experience end to end. I built the shared conceptual model of the AI system with our Chief Scientist, explored the interaction models, ran the research study and the redesign that followed, and worked dual-track with engineering through build. The \"inspect\" interaction — clicking an underlined phrase to see the data behind it — was mine, and came out of a finding the study wasn't looking for."
+team: "A design team of three — myself as Senior Designer, a Director and a Junior Designer — plus our Chief Scientist, the engineering team behind the Follow-Up Stories engine, and an illustrator."
+duration: "7 months, start to finish"
+platform: ["Web", "Tablet", "Mobile"]
+cover: "../../assets/work/follow-up-stories.jpg"
+coverAlt: "A Lexio story breaking down bookings by salesperson, with underlined phrases that open the underlying data, and a \"What to read next\" panel suggesting a follow-up comparison story."
+outcome:
+  - value: "94%"
+    label: "Increase in average session duration"
+  - value: "7 months"
+    label: "Start to finish"
+  - value: "6"
+    label: "Users interviewed"
+  - value: "279"
+    label: "Sketch screens"
+confidential: false
+order: 3
+published: true
+---
+
+import LexioContext from "../../components/LexioContext.astro";
+import Figure from "../../components/Figure.astro";
+import storyView from "../../assets/work/follow-up-stories.jpg";
+import original from "../../assets/work/fus-original.png";
+import systemMap from "../../assets/work/fus-system-map.png";
+import whiteboard from "../../assets/work/fus-whiteboard.png";
+
+## Context
+
+<LexioContext />
+
+I joined as the 102nd employee. Our small design team of three consisted of myself as Senior
+Designer, a Director and a Junior Designer. The company was very engineering-led — it was
+founded in 2010 by some of the leading AI engineers of the time — so as a design team we
+often co-created with our engineering colleagues.
+
+### The problem with the original story experience
+
+The stories in Lexio were captivating and a real achievement for the company, but something
+was missing.
+
+On the right side was an area for users to "explore" — and it functioned pretty similarly to
+the dashboard experience we were trying to replace. Users still had to know what questions to
+ask, then use dropdowns to look at different breakdowns and comparisons.
+
+That worked well enough for analytical users. But this product was built for people who
+aren't data savvy, like executives. How would they know what selections to make?
+
+<Figure
+  src={original}
+  alt="The original Lexio story view, with a generated story on the left and an Explore panel on the right containing dropdown selectors for breaking the data down."
+  caption="The original experience. The story is on the left; the panel on the right is the Explore area — dropdowns you operate yourself, which is the dashboard interaction Lexio existed to replace."
+  bleed
+/>
+
+## Reframe
+
+The explore panel had quietly recreated the thing Lexio existed to replace. We had automated
+the *answer* while still requiring the user to supply the *question* — which is precisely the
+step a non-analyst can't take.
+
+So Follow-Up Stories began as a strategic initiative to reinforce Lexio's core intellectual
+property as an intelligent data storytelling product. We set out to:
+
+- Let Lexio **recommend other stories** based on what the user is reading
+- Give users a way to **dig deeper** and read more about something Lexio wrote
+- Establish a **trail of record** from what the user reads, so recommendations get smarter
+
+The key value: empowering and guiding *all* people to explore and understand their data, not
+just analysts who already know what to ask.
+
+The central design challenge was **balancing intelligent automation with user trust and
+control.**
+
+## Process
+
+### Understanding the system before designing for it
+
+The Follow-Up Stories engine had been in development for a couple of months before I began on
+the experience. Before sketching anything, I needed a deep understanding of what this complex
+system could actually do.
+
+I teamed up with our Chief Scientist and worked with him daily to establish a framework the
+whole team could understand, not just the engineers. It took the form of a visual **map**
+showing how certain stories and their components — measures, timeframes — could lead to
+others.
+
+That map aligned every stakeholder from product to engineering. Before it existed, our teams
+were talking in circles about how the system should work.
+
+<Figure
+  src={systemMap}
+  alt="A hand-drawn map in colored marker showing how one story type leads to others, with branches from Track and Breakdown stories into measures, dimensions, timeframes and filters."
+  caption="The map itself — drawn by hand, deliberately. Anything more polished would have implied the model was settled, and the point was to argue about it until it was."
+  bleed
+/>
+
+### Sketching the interaction model
+
+With the conceptual model agreed, I explored several directions:
+
+- Recommended stories in a **modal vs. a sidebar**
+- Showing story **titles only vs. preview content**
+- Tracking a user's trail via **breadcrumbs vs. tabs**
+- How users might share stories and collaborate
+
+<Figure
+  src={whiteboard}
+  alt="A whiteboard covered in marker sketches of the story layout, working through where recommended stories sit and how a reader moves between them."
+  caption="Working the interaction model out on a whiteboard before committing to any of it."
+  bleed
+/>
+
+I aligned on using the right-side area to surface recommended stories, with a tab system up
+top for navigating between them. I brought that into Sketch and worked through UI options
+using real story content — a fast iterative process, several layouts a day, hundreds of
+screens by the end. I stitched screens together in InVision and moved to research.
+
+### What research revealed
+
+Sessions with six Lexio users testing a basic flow surfaced:
+
+- Users **liked the overall layout** — main story left, Follow-Up Stories right
+- But they were **hesitant to click Read More**, unsure what would happen
+- The tab system **wasn't easily discoverable**; once noticed it was intuitive and reminded
+  them of web browsers
+- Some stories had **too many clickable phrases**, which felt overwhelming
+- The story types — Track, Breakdown, Compare, Drivers — were welcomed and understood
+
+## Craft
+
+Changes made directly from those findings:
+
+- An affordance to **expand** a Follow-Up Story and preview its content before committing to
+  it — answering the "what will happen if I click" hesitation
+- **Redesigned tabs** with greater visibility and descriptive labels
+- **Fewer underlined phrases**, to clean up the interface and improve readability
+- A descriptive label — **"What to read next"** — above the recommendations
+- New **story type icons**, made with our illustrator, communicating each type's purpose and
+  cohesive with Lexio's brand
+
+### The trust problem I wasn't looking for
+
+While testing the usability of the recommendation system, I uncovered a tangential insight.
+When users read a phrase like *"bookings (sales) are $65k"*, it's important that they trust
+that number — and the old experience gave them no way to check. I noticed that these same
+users, working in Lexio in production, would sometimes flip back to the original data source
+like Salesforce to double-check what Lexio had written.
+
+That's where the concept of **inspecting** came from. A simple underline indicated when a
+phrase could be clicked to reveal the actual numbers and data behind it in a modal.
+
+It quickly became one of the most common interactions in Lexio stories, and gave users
+comfort, confidence and trust in what the AI was writing.
+
+<Figure
+  src={storyView}
+  alt="A Lexio story breaking down bookings by salesperson, with underlined phrases that open the underlying data, and a 'What to read next' panel suggesting a follow-up comparison story."
+  caption="Both ideas in one view: the underlined phrases are the inspect affordance, and the right-hand panel — labeled 'What to read next' after research showed the area wasn't understood — offers the next story rather than waiting to be asked."
+  bleed
+/>
+
+### Implementation
+
+We operated dual-track. I was in constant contact with engineering as I designed, so they
+could build in lockstep, and I was explicit about which features were more settled than
+others so they knew where to focus and avoid reworking the UI later. The new experience
+launched within about a month of my being design complete.
+
+## Outcome
+
+- **94% increase** in average session duration
+- The **inspect** interaction became one of the most common in Lexio stories
+- 7 months start to finish, 6 users interviewed, 279 Sketch screens
+
+> "I was in a state of awe when I used Follow-Up Stories for the first time."
+>
+> — Disprz, Lexio client
+
+> "If you work in Chicago tech as a designer, you know about Lexio. I love the design and my
+> team hears about it from me often."
+>
+> — Nate Burgos, Design Community Manager, The New Bauhaus
+
+## Reflection
+
+Follow-Up Stories was easily the most daunting and arduous project I've worked on, for a
+combination of reasons: it's powered by an incredibly complex AI system, there were very few
+direct comparisons in the market to lean on, there was a lot of back and forth between
+stakeholders on how the system should behave, and the majority of the work happened at the
+onset of the pandemic.
+
+I overcame those by teaming up with the engineering team to create a visual map everyone
+could comprehend, taking "micro-inspiration" from a variety of products and services, getting
+stakeholder alignment through design iteration, and scheduling frequent check-ins with the
+broader team to validate my approach.
+
+**What I would do differently:**
+
+- **Push for the visual diagram of the system first**, before the low-fidelity UI. We spent a
+  lot of time early on discussing the system's logic through designs, when a diagram would
+  have been easier — it was closer to the truth.
+- **Get involved with engineering earlier**, even just listening in. I had to play catch-up
+  quickly, since the teams had been discussing the system for some time before I started.

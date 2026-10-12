@@ -1,0 +1,61 @@
+---
+/**
+ * Explicit light/dark override on top of `prefers-color-scheme`.
+ *
+ * The stored value is only ever "light" or "dark" — clearing it returns the page
+ * to following the OS. The button reports the mode it will switch *to*, which is
+ * the label users actually reason about.
+ *
+ * The flash-prevention script lives in BaseLayout's <head>, not here, because it
+ * has to run before first paint.
+ */
+---
+
+<button
+  type="button"
+  id="theme-toggle"
+  class="spec inline-flex items-center gap-2 text-ink-muted transition-colors duration-150 ease-standard hover:text-ink"
+  aria-live="polite"
+>
+  <span
+    aria-hidden="true"
+    class="size-2 border border-current"
+    id="theme-toggle-swatch"></span>
+  <span id="theme-toggle-label">Theme</span>
+</button>
+
+<script>
+  const button = document.getElementById("theme-toggle");
+  const label = document.getElementById("theme-toggle-label");
+  const swatch = document.getElementById("theme-toggle-swatch");
+
+  const systemPrefersDark = () =>
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  const activeTheme = () =>
+    document.documentElement.dataset.theme ??
+    (systemPrefersDark() ? "dark" : "light");
+
+  function render() {
+    const next = activeTheme() === "dark" ? "light" : "dark";
+    if (label) label.textContent = next;
+    if (swatch)
+      swatch.style.backgroundColor =
+        activeTheme() === "dark" ? "currentColor" : "transparent";
+    button?.setAttribute("aria-label", `Switch to ${next} theme`);
+  }
+
+  button?.addEventListener("click", () => {
+    const next = activeTheme() === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = next;
+    localStorage.setItem("theme", next);
+    render();
+  });
+
+  // Keep the label honest if the OS flips while no override is set.
+  window
+    .matchMedia("(prefers-color-scheme: dark)")
+    .addEventListener("change", render);
+
+  render();
+</script>

@@ -1,0 +1,81 @@
+---
+/**
+ * Annotated image for case study bodies.
+ *
+ * Figure numbering is a CSS counter scoped to `.prose`, so it is correct per
+ * page with no build-time state to get wrong — the prose can refer to "Fig. 02"
+ * and the numbers stay in document order however the MDX is rearranged.
+ *
+ * `bleed` breaks the 34rem prose measure for wide screens and flow diagrams.
+ *
+ * Every figure is a lightbox trigger. Several artifacts here are only legible at
+ * full size — a component spec is over ten thousand pixels tall — so at page
+ * width they are otherwise decoration. The trigger is a real <button> so it is
+ * reachable by keyboard and announced; LightboxRoot handles the rest.
+ */
+
+import { Image, getImage } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  src: ImageMetadata;
+  alt: string;
+  caption?: string;
+  bleed?: boolean;
+}
+
+const { src, alt, caption, bleed = false } = Astro.props;
+
+// Capped rather than the untouched original: some sources are 8MB PNGs, and the
+// expanded view only needs to out-resolve the reader's screen.
+const full = await getImage({
+  src,
+  width: Math.min(src.width, 2400),
+  format: "webp",
+});
+---
+
+<figure class:list={["figure my-8", bleed && "lg:-mr-[16.6667%]"]}>
+  <button
+    type="button"
+    data-lightbox={full.src}
+    aria-label={`Expand image: ${alt}`}
+    class="block w-full cursor-zoom-in border border-rule bg-surface transition-opacity duration-150 ease-standard hover:opacity-95"
+  >
+    <Image
+      src={src}
+      alt={alt}
+      widths={[640, 960, 1440]}
+      sizes="(min-width: 1024px) 60vw, 100vw"
+      loading="lazy"
+      decoding="async"
+      class="block h-auto w-full"
+    />
+  </button>
+  {
+    caption && (
+      <figcaption class="mt-2 text-xs text-ink-muted">{caption}</figcaption>
+    )
+  }
+</figure>
+
+<style is:global>
+  .prose {
+    counter-reset: figure;
+  }
+
+  .prose .figure {
+    counter-increment: figure;
+  }
+
+  .prose .figure figcaption::before {
+    content: "Fig. " counter(figure, decimal-leading-zero);
+    font-family: var(--font-mono);
+    font-size: var(--text-2xs);
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-right: 0.75rem;
+    white-space: nowrap;
+  }
+</style>

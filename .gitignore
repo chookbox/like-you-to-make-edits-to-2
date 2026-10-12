@@ -1,4 +1,9 @@
-# What a project can make again, and nobody needs to keep.
+# build output
+dist/
+# generated types
+.astro/
+
+# dependencies
 node_modules/
 .venv/
 venv/
@@ -10,5 +15,18 @@ DerivedData/
 .next/cache/
 .turbo/
 .cache/
-.DS_Store
+
+# logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# environment variables
+.env
+.env.production
+
+# system / IDE files
+.DS_Store
+.idea/

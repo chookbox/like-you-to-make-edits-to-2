@@ -1,0 +1,29 @@
+---
+import { getCollection, render } from "astro:content";
+import type { GetStaticPaths } from "astro";
+import CaseStudyLayout from "../../layouts/CaseStudyLayout.astro";
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const entries = (
+    await getCollection("work", ({ data }) => data.published)
+  ).sort((a, b) => a.data.order - b.data.order);
+
+  // Adjacent links are resolved here rather than in the layout so the ordering
+  // logic lives in exactly one place.
+  return entries.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: {
+      entry,
+      prev: entries[i - 1],
+      next: entries[i + 1],
+    },
+  }));
+};
+
+const { entry, prev, next } = Astro.props;
+const { Content } = await render(entry);
+---
+
+<CaseStudyLayout entry={entry} prev={prev} next={next}>
+  <Content />
+</CaseStudyLayout>

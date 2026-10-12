@@ -1,0 +1,222 @@
+---
+title: "Product Comparison"
+impactHeadline: "Made comparing complex industrial products something anyone could do"
+summary: "Allowing customers to easily compare complex products on McMaster.com."
+company: "McMaster-Carr"
+year: "2021 — 2022"
+domain: "E-commerce · Information architecture"
+role: "User Experience Designer"
+ownership: "My first end-to-end project lead at McMaster. I framed the problem from customer feedback and interaction data, wrote the project plan, ran the divergent exploration and built both prototypes, designed and facilitated the research study, synthesized it, refined the design, and presented the recommendation to the VPs of design, engineering and product."
+team: "My manager and the wider design team through critique; engineering for the CTRL+Click fix; junior designers observing the research sessions; VPs from design, engineering and product at review."
+duration: "[NEEDS INPUT — the original mentions a plan with time estimates per activity, but never states a total]"
+platform: ["Web"]
+cover: "../../assets/work/product-comparison.png"
+coverAlt: "The Compare Product Details page on McMaster.com, showing three reamers side by side above rows of technical specifications including size, diameter, flute length, material and tolerance."
+outcome:
+  - value: "CTRL+Click"
+    label: "Unblocked mid-discovery and shipped as a quick win"
+  - value: "4 of 5"
+    label: "Participants preferred the lightweight concept"
+  - value: "Roadmapped"
+    label: "Approved by design, engineering and product VPs for pilot"
+confidential: false
+order: 5
+published: true
+---
+
+import Figure from "../../components/Figure.astro";
+import comparePage from "../../assets/work/product-comparison.png";
+import designPlan from "../../assets/work/product-comparison-plan.png";
+import pinnedRows from "../../assets/work/product-comparison-pinned.png";
+import collections from "../../assets/work/product-comparison-collections.jpg";
+import session from "../../assets/work/product-comparison-session.png";
+import synthesis from "../../assets/work/product-comparison-synthesis.jpg";
+
+## Context
+
+An historic icon in the industrial supply sector, McMaster-Carr has been in business for over
+120 years and offers around 800,000 products that help manufacturers, engineers and students
+innovate.
+
+While many know McMaster for their hefty yellow print catalogue, most of their business now
+comes via the website and mobile app. With **over 400,000 visits per day**, McMaster.com is
+heavily used by a range of customers searching for complex and technical items. Every design
+decision, no matter how small, has a massive impact.
+
+Comparison is a key behavior for customers before making a final decision to purchase.
+Without a dedicated comparison experience, McMaster customers were forced into their own
+workarounds.
+
+By digging through McMaster's customer feedback history and querying a graph database that
+records user interactions, I found customers were scrolling back and forth across the product
+tables, opening individual products in separate browser tabs, or even **adding items to their
+cart just to compare them**. Those methods work, but there's a lot of friction and they aren't
+efficient.
+
+At the direction of my manager I set out to design a comparison experience that would relieve
+that pain and give customers more confidence in their selections.
+
+## Reframe
+
+One principle shaped everything: **McMaster customers are very resistant to change**, so it's
+important to align designs to existing customer behavior wherever possible.
+
+That rules out the obvious move. The standard answer is a dedicated compare page — select
+items, go somewhere else, view a table. But at a site with 400,000 daily visits from people
+doing technical work under time pressure, the risk isn't a mediocre comparison table. It's
+disrupting a behavior customers have already built their working habits around.
+
+So the problem wasn't "McMaster is missing a comparison feature." It was "**customers are
+already comparing — badly — and the friction is in their workarounds.**"
+
+That reframing changes what a good solution looks like. It's why the concept that won was the
+one that never took the customer anywhere. And it's why unblocking a keyboard shortcut counted
+as a real result rather than a consolation prize.
+
+## Process
+
+### Setting up the foundation
+
+Before designing anything I created a project plan to give myself structure and set
+expectations with the leadership team, laying out activities following the double diamond
+along with time estimates for each to hold myself accountable.
+
+Then I dug into the problem space, ran initial quantitative research on customer behavior,
+and gathered third-party inspiration.
+
+<Figure
+  src={designPlan}
+  alt="A Notion board titled Compare Design Plan, listing tasks grouped under Problem Framing and Scope, External Research and Inspiration, and Initial Ideation, laid out against a May 2021 timeline."
+  caption="The plan, written before any design. Activities follow the double diamond and each carries a time estimate — as much about setting leadership's expectations as holding myself to them."
+/>
+
+### A quick win, found in the data
+
+The interaction data turned up something immediate: **our own site was blocking CTRL+Click**,
+the shortcut for opening links in new tabs — one of the primary ways customers were comparing
+products. I went straight to the engineering team to enable it while I worked on more robust
+solutions.
+
+### Diverging
+
+To force breadth early, I sketched along a spectrum, from minimal lightweight solutions to
+ideas closer to traditional e-commerce comparison experiences. After iterating and sharing
+mid-fidelity mockups with my manager and the design team, I took forward two ideas from
+**opposite ends** of that spectrum:
+
+- **Pinned Rows** — comparison in place, nothing to navigate to
+- **Compare Product Details** — a dedicated, fuller comparison view
+
+<Figure
+  src={pinnedRows}
+  alt="A McMaster.com results page with a Your Pinned Items panel at the top listing five pinned reamers and their specifications, above the full product table."
+  caption="Pinned Rows. Items pin to the top of the results page you're already on — no navigation, no losing your place. This is the one four of five participants preferred, and the reason they gave was exactly that."
+  bleed
+/>
+
+The Compare Product Details concept is the fuller view at the top of this page.
+
+### Testing both
+
+I built interactive prototypes of each in Figma and ran a study with **five current customers
+who had previously contacted us** asking to compare more easily on McMaster.com. I asked
+discovery questions about how they use the site today, then had them complete tasks in each
+prototype.
+
+I used research best practice to keep the test unbiased — swapping the order the prototypes
+were shown in, for instance — and followed up with a survey to capture quantitative data
+supporting the qualitative insights.
+
+One participant, a senior designer at an engineering firm, **prints pages off the site** to
+compare details side by side on his desk.
+
+<Figure
+  src={session}
+  alt="A remote research session in progress on a video call: the researcher in one window and a participant wearing a headset in another, both mid-conversation."
+  caption="A session in progress. All five were remote, run against interactive prototypes with the order of the two concepts swapped between participants to keep the comparison honest."
+/>
+
+<Figure
+  src={synthesis}
+  alt="A large research synthesis board with columns for each participant and rows of color-coded sticky notes, yellow notes marking the key learnings."
+  caption="Synthesis across all five sessions. One column per participant, with the yellow notes marking what turned out to matter."
+  bleed
+/>
+
+### What we learned
+
+- Participants usually only compare when looking at **unfamiliar products**, and mainly
+  compare similar products within the same category
+- **Four of five preferred Pinned Rows** for its lightweight nature — it didn't require them
+  to navigate somewhere else
+- Those same four suggested **both concepts could be combined** for the best of both worlds
+
+## Craft
+
+The customers resolved the either/or I'd set up, so the final design took both:
+
+- **Combined the approaches into a unified prototype.** Pin products to compare in place; if
+  further comparison is needed after pinning, a link takes you to the Compare Product Details
+  page.
+- **Discoverability fixes from testing** — animating the Pinned Items header as it appears
+  and giving it more visual emphasis, so it gets noticed.
+- **Designed for what was coming next**, considering how this would work alongside
+  Collections, a way for customers to save products for later.
+
+<Figure
+  src={collections}
+  alt="A board titled How Compare could work with Collections, pairing an ecosystem diagram with screens showing pinned products being saved into a collection."
+  caption="Comparison didn't get to exist on its own. Collections was already in flight, so the two had to be designed as one system rather than two features that happen to share a page."
+  bleed
+/>
+
+### Making the case to leadership
+
+Using Miro, I presented to the leadership team — VPs from design, engineering and product —
+to argue why a comparison experience would be valuable for McMaster customers:
+
+- Background and context: problem statement, evidence, project scope
+- Both design concepts, overlaid with customer feedback from research
+- The latest iterations, and how the experience fits the broader ecosystem of features
+
+## Outcome
+
+**To be straight about where this landed: the comparison experience was validated and
+approved, not launched.** Following the review, leadership added the project to the roadmap to
+be piloted on the website and tested before any broader release. I left McMaster-Carr before
+that pilot ran, so there are no post-launch numbers to report.
+
+What did ship, and what the work produced:
+
+- **CTRL+Click unblocked across the site** — a small fix, but it removed friction from a
+  comparison behavior customers were already relying on every day
+- A design **validated with the customers who had asked for it**, with four of five
+  preferring the direction that became the primary concept
+- **Cross-functional sign-off** from design, engineering and product leadership, and a place
+  on the roadmap
+
+> "I think in this [design review] meeting and your meeting with Amy and I, you have
+> demonstrated that communicating your design decisions and your process are strengths of
+> yours, which is fantastic!"
+>
+> — Patrice Payne, Director of Design
+
+## Reflection
+
+This was my first opportunity to lead a design project from end to end at McMaster-Carr. I
+enjoyed the methodical nature of the process — researching the opportunity space, framing the
+problem, designing a broad array of solutions, testing those ideas with customers, reviewing
+with stakeholders, then refining.
+
+My favorite part was conducting the research study with real customers. It was enlightening
+to speak with them for the first time, learn about their motivations, and have them test my
+prototypes — showing that we truly care about their experience. It was good to bring some of
+the junior designers into those sessions so they could get experience with research
+interviews too.
+
+**If I got the chance to start this project over, I would have:**
+
+- **Diverged more early on**, so I could work from a broader set of ideas
+- **Pushed on the boundaries of the scope** and thought less about technical feasibility
+- **Been more proactive** about reaching out to others in the organization to learn more
+  about the business and our customers

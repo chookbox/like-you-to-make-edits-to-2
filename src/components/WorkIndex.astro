@@ -1,0 +1,79 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
+import { USE_IMPACT_HEADLINES } from "../consts";
+
+/**
+ * The work index, as a specification table rather than a card grid.
+ *
+ * Cards force reviewers to scan pictures for meaning; a table lets them read
+ * impact, domain and year in three seconds and pick what to open. Sources agree
+ * reviewers give a portfolio two to four minutes total, so the index's only job
+ * is fast, confident triage.
+ *
+ * The thumbnail is a compromise on that: this is a design portfolio, and a
+ * reader needs *some* evidence the work exists visually. It's held to a fixed
+ * 4:3 crop so a row of mixed source ratios still reads as a grid rather than a
+ * ragged column.
+ */
+
+interface Props {
+  entries: CollectionEntry<"work">[];
+}
+
+const { entries } = Astro.props;
+---
+
+<ol class="rule-t">
+  {
+    entries.map((entry, i) => (
+      <li class="rule-b group">
+        <a
+          href={`/work/${entry.id}/`}
+          class="grid grid-cols-1 gap-x-gutter gap-y-4 py-6 transition-colors duration-200 ease-standard md:grid-cols-12 md:py-7"
+        >
+          <span class="spec self-start pt-1 text-ink-muted transition-colors duration-200 ease-standard group-hover:text-accent md:col-span-1">
+            {String(i + 1).padStart(2, "0")}
+          </span>
+
+          {entry.data.cover && (
+            <div class="overflow-hidden border border-rule bg-surface md:col-span-3">
+              <Image
+                src={entry.data.cover}
+                alt={entry.data.coverAlt ?? ""}
+                widths={[320, 480, 640]}
+                sizes="(min-width: 768px) 24vw, 100vw"
+                loading={i < 2 ? "eager" : "lazy"}
+                decoding="async"
+                class="aspect-[4/3] w-full object-cover object-top transition-[scale] duration-300 ease-standard group-hover:scale-[1.02]"
+              />
+            </div>
+          )}
+
+          <div class:list={[entry.data.cover ? "md:col-span-4" : "md:col-span-7"]}>
+            <h3 class="text-display-sm font-medium tracking-tight transition-colors duration-200 ease-standard group-hover:text-accent">
+              {USE_IMPACT_HEADLINES
+                ? entry.data.impactHeadline
+                : entry.data.title}
+            </h3>
+            <p class="mt-2 max-w-prose text-sm text-ink-muted">
+              {entry.data.summary}
+            </p>
+          </div>
+
+          <div class="flex flex-wrap items-baseline gap-x-4 gap-y-1 md:col-span-2 md:flex-col md:pt-2">
+            <span class="spec text-ink">{entry.data.company}</span>
+            <span class="spec text-ink-muted">{entry.data.domain}</span>
+            {entry.data.gated && <span class="spec text-accent">Passphrase</span>}
+          </div>
+
+          <div class="md:col-span-2 md:pt-2 md:text-right">
+            <span class="spec tabular-nums text-ink-muted">
+              {entry.data.year}
+            </span>
+          </div>
+        </a>
+      </li>
+    ))
+  }
+</ol>

@@ -1,0 +1,144 @@
+---
+import type { CollectionEntry } from "astro:content";
+import BaseLayout from "./BaseLayout.astro";
+import SpecTable from "../components/SpecTable.astro";
+import ImpactStat from "../components/ImpactStat.astro";
+import LightboxRoot from "../components/LightboxRoot.astro";
+import { USE_IMPACT_HEADLINES } from "../consts";
+
+/**
+ * The single case study template.
+ *
+ * Section order is fixed and applies to every study, following the structure the
+ * hiring-manager sources converge on: impact first, then the specification block
+ * (which forces an explicit ownership statement), then the narrative. The body
+ * MDX supplies Context → Reframe → Process → Craft → Outcome → Reflection, and
+ * scripts/check-content.mjs fails the build if any of those are missing.
+ */
+
+interface Props {
+  entry: CollectionEntry<"work">;
+  prev?: CollectionEntry<"work">;
+  next?: CollectionEntry<"work">;
+}
+
+const { entry, prev, next } = Astro.props;
+const d = entry.data;
+
+const specRows = [
+  { label: "Company", value: d.company },
+  { label: "Role", value: d.role },
+  { label: "Team", value: d.team },
+  { label: "Duration", value: d.duration },
+  { label: "Platform", value: d.platform.join(", ") },
+  { label: "Domain", value: d.domain },
+  { label: "I owned", value: d.ownership, wide: true },
+];
+---
+
+<BaseLayout
+  title={d.title}
+  description={d.summary}
+  ogImage={d.cover}
+  ogImageAlt={d.coverAlt}
+>
+  <article>
+    <!-- Impact headline -->
+    <header class="shell pt-12 pb-section md:pt-20">
+      <div class="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-gutter">
+        <div class="md:col-span-1">
+          <a
+            href="/"
+            class="spec text-ink-muted transition-colors duration-150 ease-standard hover:text-accent"
+            >← Index</a
+          >
+        </div>
+
+        <div class="md:col-span-8">
+          <p class="spec text-accent">{d.company} · {d.year}</p>
+          <h1 class="mt-4 text-display font-medium">
+            {USE_IMPACT_HEADLINES ? d.impactHeadline : d.title}
+          </h1>
+          <p class="mt-6 max-w-prose text-lg text-ink-muted">{d.summary}</p>
+
+          <div
+            class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          >
+            {
+              d.outcome.map(({ value, label }) => (
+                <ImpactStat value={value} label={label} />
+              ))
+            }
+          </div>
+
+          {
+            d.confidential && (
+              <p class="spec mt-8 border-l-2 border-accent pl-3 text-ink-muted">
+                Figures shown are cleared for public sharing. Some underlying
+                data is generalized.
+              </p>
+            )
+          }
+        </div>
+      </div>
+    </header>
+
+    <!-- Specification -->
+    <section class="shell pb-section">
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-12 md:gap-gutter">
+        <div class="md:col-span-1">
+          <p class="spec text-accent">01</p>
+        </div>
+        <div class="md:col-span-7">
+          <h2 class="spec rule-b pb-3 text-ink">Specification</h2>
+          <SpecTable rows={specRows} class="mt-2" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Narrative -->
+    <section class="shell pb-section">
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-12 md:gap-gutter">
+        <div class="md:col-span-1">
+          <p class="spec text-accent">02</p>
+        </div>
+        <div class="prose md:col-span-8">
+          <slot />
+        </div>
+      </div>
+    </section>
+  </article>
+
+  <!-- Adjacent work -->
+  {
+    (prev || next) && (
+      <nav
+        aria-label="More case studies"
+        class="shell rule-t grid grid-cols-1 gap-6 py-10 md:grid-cols-12 md:gap-gutter"
+      >
+        <div class="md:col-span-6">
+          {prev && (
+            <a href={`/work/${prev.id}/`} class="group block">
+              <span class="spec text-ink-muted">Previous</span>
+              <p class="mt-2 text-lg tracking-tight transition-colors duration-150 ease-standard group-hover:text-accent">
+                {prev.data.title}
+              </p>
+            </a>
+          )}
+        </div>
+        <div class="md:col-span-6 md:text-right">
+          {next && (
+            <a href={`/work/${next.id}/`} class="group block">
+              <span class="spec text-ink-muted">Next</span>
+              <p class="mt-2 text-lg tracking-tight transition-colors duration-150 ease-standard group-hover:text-accent">
+                {next.data.title}
+              </p>
+            </a>
+          )}
+        </div>
+      </nav>
+    )
+  }
+
+  <LightboxRoot />
+</BaseLayout>

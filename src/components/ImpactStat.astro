@@ -1,0 +1,22 @@
+---
+/**
+ * A single headline result. Rendered as a row of these directly under the case
+ * study headline, so the outcome is visible before any scrolling — the
+ * "impact-first" pattern that every hiring-manager source converges on.
+ */
+
+interface Props {
+  value: string;
+  label: string;
+}
+
+const { value, label } = Astro.props;
+---
+
+<div class="rule-t flex flex-col gap-1 pt-3">
+  <span
+    class="text-display-sm font-medium tabular-nums text-accent"
+    >{value}</span
+  >
+  <span class="spec text-ink-muted">{label}</span>
+</div>

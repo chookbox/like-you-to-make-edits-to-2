@@ -1,0 +1,50 @@
+---
+import { SITE } from "../consts";
+import ThemeToggle from "./ThemeToggle.astro";
+
+/**
+ * Persistent header. Deliberately a single row of monospace labels on a hairline
+ * rule — the portfolio's own navigation is part of what is being assessed, so it
+ * stays obvious and stationary rather than clever.
+ */
+
+const path = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === "/" ? path === "/" : path.startsWith(href);
+
+const items = [
+  { label: "Work", href: "/" },
+  { label: "About", href: "/about" },
+];
+---
+
+<header class="rule-b relative z-10 bg-paper/85 backdrop-blur-sm">
+  <div class="shell flex h-14 items-center justify-between gap-gutter">
+    <a
+      href="/"
+      class="text-sm font-medium tracking-tight transition-opacity duration-150 ease-standard hover:opacity-60"
+    >
+      {SITE.name}
+    </a>
+
+    <nav aria-label="Primary" class="flex items-center gap-6">
+      {
+        items.map(({ label, href }) => (
+          <a
+            href={href}
+            aria-current={isActive(href) ? "page" : undefined}
+            class:list={[
+              "spec transition-colors duration-150 ease-standard",
+              isActive(href)
+                ? "text-accent"
+                : "text-ink-muted hover:text-ink",
+            ]}
+          >
+            {label}
+          </a>
+        ))
+      }
+      <ThemeToggle />
+    </nav>
+  </div>
+</header>

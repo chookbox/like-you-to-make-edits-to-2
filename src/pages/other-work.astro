@@ -1,0 +1,192 @@
+---
+import { Image, getImage } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import LightboxRoot from "../components/LightboxRoot.astro";
+import { OTHER_WORK } from "../consts";
+import { OTHER_WORK_PROJECTS } from "../data/other-work";
+
+/**
+ * Project images are resolved through a glob rather than imported one by one,
+ * so adding a project means adding a file and a filename — no wiring here.
+ */
+const images = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/work/other/*.{png,jpg,jpeg,webp}",
+  { eager: true },
+);
+const imageFor = (file: string) =>
+  images[`../assets/work/other/${file}`]?.default;
+
+/**
+ * Full-size versions for the lightbox, generated once up front. Capped rather
+ * than the untouched original — some sources are several megabytes and the
+ * expanded view only needs to out-resolve the reader's screen.
+ */
+const fullSrc = new Map<string, string>();
+for (const project of OTHER_WORK_PROJECTS) {
+  const img = imageFor(project.image);
+  if (!img) continue;
+  const rendered = await getImage({
+    src: img,
+    width: Math.min(img.width, 2400),
+    format: "webp",
+  });
+  fullSrc.set(project.image, rendered.src);
+}
+
+/**
+ * The smaller projects, as a specification list rather than case studies.
+ *
+ * Each entry is the same three things — what it was, what I did, what came of it —
+ * so the page reads as a scannable table. Grouping by company keeps a decade of
+ * work legible without turning it into an undifferentiated wall.
+ */
+
+const companies = [...new Set(OTHER_WORK_PROJECTS.map((p) => p.company))];
+const byCompany = companies.map((company) => ({
+  company,
+  projects: OTHER_WORK_PROJECTS.filter((p) => p.company === company),
+}));
+---
+
+<BaseLayout
+  title="Other Work"
+  description="Smaller projects Mark Pachucki has led from a design perspective — design systems, guidelines, journey mapping and internal tools at Delivery Hero, McMaster-Carr, Narrative Science and Nielsen."
+>
+  <section class="shell pt-12 pb-section md:pt-20">
+    <div class="grid grid-cols-1 gap-8 md:grid-cols-12 md:gap-gutter">
+      <div class="md:col-span-1">
+        <a
+          href="/"
+          class="spec text-ink-muted transition-colors duration-150 ease-standard hover:text-accent"
+          >← Index</a
+        >
+      </div>
+
+      <div class="md:col-span-8">
+        <h1 class="text-display font-medium">{OTHER_WORK.title}</h1>
+        <p class="mt-6 max-w-prose text-lg text-ink-muted">
+          {OTHER_WORK.summary}
+        </p>
+      </div>
+
+      <div class="md:col-span-2 md:col-start-11 md:text-right">
+        <p class="spec tabular-nums text-ink-muted">
+          {String(OTHER_WORK_PROJECTS.length).padStart(2, "0")} projects
+        </p>
+      </div>
+    </div>
+  </section>
+
+  {
+    byCompany.map(({ company, projects }, groupIndex) => (
+      <section class="shell pb-section">
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-12 md:gap-gutter">
+          <div class="md:col-span-1">
+            <p class="spec text-accent">
+              {String(groupIndex + 1).padStart(2, "0")}
+            </p>
+          </div>
+
+          <div class="md:col-span-11">
+            <div class="rule-b flex items-baseline justify-between pb-3">
+              <h2 class="spec text-ink">{company}</h2>
+              <p class="spec tabular-nums text-ink-muted">
+                {String(projects.length).padStart(2, "0")}
+              </p>
+            </div>
+
+            <ol class="rule-t mt-2">
+              {projects.map((project) => (
+                <li class="rule-b grid grid-cols-1 gap-4 py-7 md:grid-cols-11 md:gap-gutter">
+                  <div class="md:col-span-3">
+                    <h3 class="text-lg tracking-tight">{project.title}</h3>
+                    <p class="spec mt-1.5 tabular-nums text-ink-muted">
+                      {project.timeline}
+                    </p>
+                  </div>
+
+                  {/*
+                    Tall portrait artifacts (a guidelines doc, a component spec)
+                    go in their own narrow column at natural height, so the whole
+                    page is readable rather than cropped to a band. Wide screens
+                    stay below the text where they have room to be wide.
+                  */}
+                  {project.imageAside && imageFor(project.image) && (
+                    <div class="md:col-span-3">
+                      <button
+                        type="button"
+                        data-lightbox={fullSrc.get(project.image)}
+                        aria-label={`Expand image: ${project.imageAlt}`}
+                        class="block w-full cursor-zoom-in overflow-hidden border border-rule bg-surface transition-opacity duration-150 ease-standard hover:opacity-95"
+                      >
+                        <Image
+                          src={imageFor(project.image)!}
+                          alt={project.imageAlt}
+                          widths={[320, 480, 720]}
+                          sizes="(min-width: 768px) 26vw, 100vw"
+                          loading="lazy"
+                          decoding="async"
+                          class="block h-auto w-full"
+                        />
+                      </button>
+                    </div>
+                  )}
+
+                  <div
+                    class:list={[
+                      "flex flex-col gap-4",
+                      project.imageAside ? "md:col-span-5" : "md:col-span-8",
+                    ]}
+                  >
+                    <p class="max-w-prose text-sm text-ink-muted">
+                      {project.summary}
+                    </p>
+
+                    <div class="grid grid-cols-1 gap-1 sm:grid-cols-[6rem_1fr] sm:gap-gutter">
+                      <p class="spec pt-0.5 text-ink-muted">My role</p>
+                      <p class="max-w-prose text-sm text-ink">{project.role}</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 gap-1 sm:grid-cols-[6rem_1fr] sm:gap-gutter">
+                      <p class="spec pt-0.5 text-accent">Result</p>
+                      <p class="max-w-prose text-sm text-ink">
+                        {project.result}
+                      </p>
+                    </div>
+
+                    {/*
+                      Natural aspect, never cropped. A fixed band looked tidier
+                      but silently trimmed content off wide artifacts — the Lexio
+                      journey map lost both ends of its timeline that way. These
+                      are evidence, so they get shown whole.
+                    */}
+                    {!project.imageAside && imageFor(project.image) && (
+                      <button
+                        type="button"
+                        data-lightbox={fullSrc.get(project.image)}
+                        aria-label={`Expand image: ${project.imageAlt}`}
+                        class="mt-1 block w-full cursor-zoom-in overflow-hidden border border-rule bg-surface transition-opacity duration-150 ease-standard hover:opacity-95"
+                      >
+                        <Image
+                          src={imageFor(project.image)!}
+                          alt={project.imageAlt}
+                          widths={[640, 960, 1280]}
+                          sizes="(min-width: 768px) 60vw, 100vw"
+                          loading="lazy"
+                          decoding="async"
+                          class="block h-auto w-full"
+                        />
+                      </button>
+                    )}
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <LightboxRoot />
+</BaseLayout>

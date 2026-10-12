@@ -1,0 +1,42 @@
+---
+/**
+ * The blueprint grid.
+ *
+ * A fixed hairline column overlay sitting behind all content, aligned to the
+ * same `shell` container and gutter the content uses — so the visible lines are
+ * the real layout grid, not decoration painted at a different rhythm. This is
+ * what makes the Swiss direction legible rather than merely minimal.
+ *
+ * 4 columns on small screens, 12 from `md` up, matching where the layouts
+ * actually switch.
+ */
+---
+
+<div
+  aria-hidden="true"
+  class="pointer-events-none fixed inset-0 z-0 select-none"
+>
+  <div class="shell h-full">
+    {/*
+      The gutter must match the content grid's `gap-x-gutter` exactly. Without
+      it the overlay draws 12 equal columns across the full width while content
+      draws 12 narrower columns separated by gaps — the two drift apart by more
+      than a gutter's width by the right edge of the page.
+    */}
+    <div class="grid h-full grid-cols-4 gap-x-gutter md:grid-cols-12">
+      {
+        Array.from({ length: 12 }).map((_, i) => (
+          <div
+            class:list={[
+              "border-l border-grid-line",
+              /* Close the right edge: cell 4 below md, cell 12 from md up. */
+              i === 3 && "border-r md:border-r-0",
+              i === 11 && "md:border-r",
+              i >= 4 && "hidden md:block",
+            ]}
+          />
+        ))
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+---
+/**
+ * The spec block.
+ *
+ * Renders case study metadata as a technical specification sheet: monospace
+ * label column, hairline rules, no decoration. This is where "what I owned"
+ * becomes unavoidable rather than buried in a paragraph — the research is clear
+ * that unattributed work on a team project reads as no work at all.
+ */
+
+interface Row {
+  label: string;
+  value: string;
+  /** Spans the full width instead of sitting in the value column. */
+  wide?: boolean;
+}
+
+interface Props {
+  rows: Row[];
+  class?: string;
+}
+
+const { rows, class: className } = Astro.props;
+---
+
+<dl class:list={["rule-t", className]}>
+  {
+    rows.map(({ label, value, wide }) => (
+      <div
+        class:list={[
+          "rule-b grid grid-cols-1 gap-1 py-3 sm:gap-gutter",
+          wide ? "sm:grid-cols-1" : "sm:grid-cols-[10rem_1fr]",
+        ]}
+      >
+        <dt class="spec pt-0.5 text-ink-muted">{label}</dt>
+        <dd class="text-sm text-ink">{value}</dd>
+      </div>
+    ))
+  }
+</dl>

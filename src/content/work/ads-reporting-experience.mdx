@@ -1,0 +1,178 @@
+---
+title: "Ads Reporting Experience"
+impactHeadline: "Split reporting in two so novices and marketers could both use it"
+summary: "Redesigning and enhancing the way restaurants understand their ad's performance and offering recommendations to improve it."
+company: "Delivery Hero"
+year: "2024 — 2025"
+domain: "AdTech · Data visualization"
+role: "Lead Designer, Sponsored Listings"
+ownership: "I identified the unmet needs through research, proposed the information architecture change that split reporting into an overview and a detail layer, and designed both. I worked with my PM to define the recommendation set and with engineering on the algorithm that ranks them, then restructured the detailed report around a metric taxonomy I validated with users and stakeholders."
+team: "My PM, the engineering team, plus users and internal stakeholders through validation."
+duration: "[NEEDS INPUT — not stated in the original case study]"
+platform: ["Web"]
+cover: "../../assets/work/ads-reporting-experience.png"
+coverAlt: "The reporting landing page: a row of smart actions recommending budget increases and auto-bidding, above a plain-language summary reading that Premium Position campaigns generate AED 5.24 for every AED 1 spent."
+outcome:
+  - value: "€1.1M"
+    label: "Added by restaurants via one recommendation card, Q4 2024"
+  - value: "5"
+    label: "Recommendations in the smart actions system"
+  - value: "[NEEDS INPUT]"
+    label: "Comprehension or adoption of the new reporting"
+confidential: true
+order: 2
+published: true
+---
+
+import DeliveryHeroContext from "../../components/DeliveryHeroContext.astro";
+import Figure from "../../components/Figure.astro";
+import landingPage from "../../assets/work/ads-reporting-experience.png";
+import critique from "../../assets/work/ads-reporting-critique.webp";
+import architecture from "../../assets/work/ads-reporting-ia.webp";
+import smartActions from "../../assets/work/ads-reporting-smart-actions.png";
+import detailPage from "../../assets/work/ads-reporting-detail.png";
+
+## Context
+
+<DeliveryHeroContext />
+
+When I joined in 2023 we had a basic page for restaurant owners to view the performance of
+their ad — metrics like the number of orders they received through it and how much it
+generated in sales.
+
+I identified a number of visual design issues to improve, and through research uncovered
+several unmet needs:
+
+- Restaurant owners with limited ad experience found the page **intimidating**
+- Experienced advertisers wanted to see **aggregated performance** across multiple campaigns
+  and restaurants
+- Experienced advertisers were **missing key metrics**, breakdowns and visualizations
+
+<Figure
+  src={critique}
+  alt="The original performance page marked up with hand-drawn arrows and notes calling out problems with the metric row, the bar chart, the status section and the area-level performance table."
+  caption="The page I inherited, annotated. Marking up what was wrong before proposing anything new — the metric row, the chart, the status block and the area breakdown each got their own note."
+  bleed
+/>
+
+## Reframe
+
+A common challenge for the design and product teams at Delivery Hero is creating a product
+that's intuitive for small restaurant owners with limited technical knowledge but also
+advanced enough for massive restaurant chains with dedicated marketers.
+
+One page could not do both jobs. So rather than trying to balance the two audiences inside a
+single report, I proposed we **change the information architecture**: add a new page giving a
+high-level overview of ad performance, and link from it into more detailed reports for
+advanced users.
+
+That split is what made the rest of the work possible — the overview could get simpler and
+more prescriptive precisely because the detail had somewhere else to live.
+
+<Figure
+  src={architecture}
+  alt="A flow diagram of the advertising plugin branching into a Create an ad tab and a View performance tab, with the performance branch leading to a new reporting landing page and on to a detailed reporting page with single and multi-campaign views."
+  caption="The proposed architecture. The new reporting landing page is the box that didn't exist before; everything to its right is the detail it now has somewhere to send you."
+  bleed
+/>
+
+## Process
+
+### The reporting landing page
+
+I separated the three different ad types using a toggle at the top of the page. I initially
+explored combining them into a single page, but each ad type serves a different purpose, and
+since each is created separately it made sense to maintain that mental model in reporting
+too.
+
+The first section is a **recommendation system** giving users ways to improve their ads.
+These "smart actions" make it easy to keep ads running, and they're also a key way Delivery
+Hero increases ad revenue.
+
+Finally I created a summary that uses **natural language** to tell restaurant owners how much
+money their ads earn them for every euro spent — especially helpful for less experienced
+owners judging whether their ads are worth what they pay.
+
+### How the recommendation system works
+
+Giving users recommendations on improving ad performance had been discussed for a while;
+this was the opportunity to make it real.
+
+I worked with my PM to identify a set of five recommendations we could provide. We then
+worked with engineering to create a recommendation algorithm that surfaces only the most
+applicable ones for a given ad's performance, and prioritizes the most impactful first.
+
+The "add more budget" recommendation has been particularly beneficial for both restaurants
+and Delivery Hero's AdTech revenue. **Over €1.1 million was added by restaurants around the
+world through that card in Q4 2024.**
+
+<Figure
+  src={landingPage}
+  alt="The reporting landing page: a row of smart actions recommending budget increases and auto-bidding, above a plain-language summary reading that Premium Position campaigns generate AED 5.24 for every AED 1 spent."
+  caption="The reporting landing page. The smart actions row is top — including the 'add more budget' card — and beneath it the plain-language return summary, stated before any chart."
+  bleed
+/>
+
+<Figure
+  src={smartActions}
+  alt="Specification for the smart actions cards: an Add more budget card and a Switch to auto-bid card, each shown collapsed and then expanded into a panel with budget options and the estimated performance of the increase."
+  caption="The smart actions, specified. Each recommendation opens into the change it proposes and what that change is estimated to produce — so accepting one is a decision rather than a leap."
+  bleed
+/>
+
+### The detailed report for experts
+
+This page came with its own hurdles. We had a list of desired metrics and analysis from our
+target users, but simply adding a dozen new metrics and four new features to the existing
+page wasn't going to work.
+
+I needed to rethink the layout of the entire page and how information should be grouped, to
+keep the design clear while telling a complete story of advertising performance.
+
+## Craft
+
+Instead of a flat list, I categorized every metric into sections that build a narrative:
+
+- **Campaign details** — moved to the top to make clear which campaign is being viewed, and
+  to elevate the most common action, Edit
+- **Sales** — how did my ad affect my business?
+- **Visibility** — how many people saw my ad, and how many clicked it?
+- **Customer insights** — what kind of customers did my ad bring me?
+- **Conversion** — how effective was my ad in giving me more orders?
+- **Performance by area** — how did my ad perform across the neighborhoods I serve?
+
+Framing each group as the question it answers is what turned a metric dump into a report.
+
+<Figure
+  src={detailPage}
+  alt="The full detailed reporting page in one scroll, running from campaign details at the top through sales, visibility, customer insights, conversion and performance by area."
+  caption="The detailed report end to end. Campaign details sit at the top with Edit elevated, then each section answers one question in turn rather than presenting a flat list of metrics."
+  bleed
+/>
+
+After validating those groups with users and internal stakeholders, I added new features:
+
+- Custom time range
+- Downloading the report
+- Comparing performance to a previous period
+
+## Outcome
+
+- **Over €1.1 million** added by restaurants worldwide through the "add more budget"
+  recommendation in Q4 2024
+- A five-recommendation smart actions system, ranked by an algorithm built with engineering
+- A reporting architecture that serves first-time advertisers and dedicated marketers from
+  the same product
+
+> "Great feedback on the new ad reporting details page — Talabat CEO is super happy and loves
+> it. Well done!"
+>
+> — Katrin Abwerzger, Director of Product Design
+
+## Reflection
+
+[NEEDS INPUT — no reflection existed in the original. Worth answering: did splitting the
+overview from the detail create any new problem — a discovery gap, people never reaching the
+detailed report? And did the recommendation system ever suggest something that was good for
+Delivery Hero's revenue but not obviously good for the restaurant? That tension is the most
+interesting thing on this page and naming it honestly would set the study apart.]

@@ -1,0 +1,187 @@
+---
+title: "Your Summary"
+impactHeadline: "Designed the front door of Narrative Science's flagship AI product"
+summary: "Creating the homepage of Narrative Science's flagship artificial intelligence product, Lexio."
+company: "Narrative Science"
+year: "2020"
+domain: "AI · Analytics"
+role: "Senior Product Designer"
+ownership: "I ran the research that found the problem, then owned the design end to end: the concepts, the three low-fidelity approaches tested with users, the refinement after research, the visual and brand direction with our illustrator, and the mobile version. I paired with a senior front-end engineer through build, supplying the specs, states and edge cases."
+team: "Another designer on the initial research, our product manager, an illustrator, and a senior front-end engineer through implementation."
+duration: "6 months, start to finish"
+platform: ["Web", "Mobile"]
+cover: "../../assets/work/your-summary.jpg"
+coverAlt: "The Your Summary homepage in Lexio, showing pinned metrics with hand-drawn icons, plain-language explanations of what drove each change, and progress bars towards goal."
+outcome:
+  - value: "+50%"
+    label: "Active users"
+  - value: "+15%"
+    label: "User actions"
+  - value: "6 months"
+    label: "Start to finish"
+  - value: "12"
+    label: "Users interviewed"
+  - value: "213"
+    label: "Sketch screens"
+confidential: false
+order: 4
+published: true
+---
+
+import LexioContext from "../../components/LexioContext.astro";
+import Figure from "../../components/Figure.astro";
+import summaryPage from "../../assets/work/your-summary.jpg";
+import whiteboard from "../../assets/work/ys-whiteboard.jpg";
+import lowFi from "../../assets/work/ys-lowfi.png";
+import mobile from "../../assets/work/ys-mobile.png";
+
+## Context
+
+<LexioContext />
+
+### Why we decided to build Your Summary
+
+After launching Lexio in early 2020, I teamed up with one of our other designers and ran a
+research study to see how new users were finding the product. One theme came back
+consistently: Lexio was **"overwhelming"** and users were **"unsure of where to start."**
+
+That was understandable. Lexio didn't have a true homepage to give users a reliable
+foundation and valuable information up front. There was simply a page with links to detailed
+stories, so users had to dive in and out of different stories to get the insights they needed
+for their day.
+
+When I asked those users what Lexio should show them the moment they sign in to make them
+feel confident and prepared, their answers came down to two themes:
+
+- *"I want to see how my most important metrics are doing and how they're tracking towards
+  their goals."*
+- *"I want to see any outliers or trends in my data that I may not know about so I can take
+  action on them."*
+
+## Reframe
+
+The instinct when users say a product is overwhelming is to show them less. But Lexio's
+problem wasn't volume — it was that everything was equally available and nothing was
+prioritized. Cutting content would have turned a product with no starting point into a
+product with no content.
+
+The homepage's job wasn't to show more or less. It was to answer two questions before the
+user thought to ask them: **how are the few things I care about doing, and what changed that
+I don't know about yet?**
+
+That's why the outcome was a tightly bounded page rather than a fuller one — and why the
+research finding that mattered most was a number: **three.** Most users genuinely cared about
+three KPIs or fewer, so three became the constraint that stopped the fix from recreating the
+original problem.
+
+## Process
+
+### Initial concepts
+
+I began by sketching different ideas for displaying someone's favorite metrics alongside
+story content describing the important outliers and trends Lexio's AI discovers.
+
+<Figure
+  src={whiteboard}
+  alt="A whiteboard covered in marker sketches of homepage layouts, with boxes for metrics and story content arranged several different ways."
+  caption="Sketching the arrangements before choosing one — metrics up top, stories below, in as many combinations as would fit on the board."
+  bleed
+/>
+
+After presenting those sketches to the design team and our product manager and collecting
+feedback, I honed in on three different approaches, which I turned into low-fidelity
+wireframes to test with users.
+
+<Figure
+  src={lowFi}
+  alt="A low-fidelity wireframe of the summary page showing three metrics across the top, then sections labeled Bright Spots and Red Flags each containing a small chart and bulleted detail."
+  caption="One of the three low-fidelity options. Bright Spots and Red Flags are already named here — the terms came from users describing how they talk about trends with their own teams, and they survived to the shipped design."
+  bleed
+/>
+
+### What research revealed
+
+Testing the low-fidelity options surfaced several insights that drove the next iteration:
+
+- The **sweet spot for the number of metrics is three.** Most users truly cared about three
+  KPIs or fewer, and holding to that prevents the overwhelming feeling we set out to solve.
+- Users liked seeing underlying trends below, **separated by good news vs. bad news** — and
+  wanted to toggle between them.
+- The terms **"bright spots" and "red flags"** resonated, and reflected how they already talk
+  about trends with their teams.
+- Users wanted to see **the "why" behind the numbers.**
+- **Bullet points** made the content easier to scan and consume.
+- Users asked for a **visual way** to see recent performance and tracking towards goal.
+
+### Refining on the findings
+
+- Added **driver content** telling the why behind the numbers, as bullet points
+- Created an affordance for **customizing the pinned metrics**
+- Added **visual indicators** for historical trend and performance to goal
+- Created a **selector** to filter insights by bright spots and red flags
+- Increased the visual fidelity of the UI
+- Ran the designs by several of the same users plus some new ones, to validate the changes
+  and find where minor tweaks were still needed
+
+## Craft
+
+Since this page would be Lexio's first impression for new users, it was paramount to nail the
+visual design and make it a differentiated experience from other business tools:
+
+- Worked with our illustrator to get **hand-drawn icons** for each section
+- Updated the **sparklines with a hand-drawn look** to reinforce Lexio's brand
+- Used **illustrations to signal the valence** of bright spots and red flags visually
+- Improved the **typographic hierarchy** so the right content was emphasized
+- Created a **mobile version** so users get the same information on the go
+
+<Figure
+  src={mobile}
+  alt="Three mobile screens side by side: pinned metrics with a sparkline and driver detail, a notable insights story, and a What Else Happened feed of shorter updates."
+  caption="The mobile version. The same three-metric constraint holds — on a phone there was never room for more anyway, which is a reasonable sign the number was right."
+  bleed
+/>
+
+<Figure
+  src={summaryPage}
+  alt="The Your Summary homepage in Lexio, showing pinned metrics with hand-drawn icons, plain-language explanations of what drove each change, and progress bars towards goal."
+  caption="Pinned Metrics, held to a small number by the research. Each figure carries the driver content beneath it — what moved, and why — plus progress to goal and days remaining."
+  bleed
+/>
+
+### Implementation
+
+I paired with one of our senior front-end engineers to build the experience with all its
+interactions. To work effectively together I gave him:
+
+- Sizing and spacing specs
+- Data visualization behaviors and states
+- Interaction details — the pinned metrics customization modal, hover states, tooltips
+- Edge cases and empty states
+
+## Outcome
+
+- **+50%** active users
+- **+15%** user actions
+- 6 months start to finish, 12 users interviewed, 213 Sketch screens
+
+> "I'm blown away by this summary page. I spend 30 minutes every morning with data and I can
+> get a lot of value out of that, and I want other people to do the same, but they're just...
+> eh. I think this summary will be a game changer for them."
+>
+> — Tristan Handy, CEO & Founder of Fishtown Analytics
+
+## Reflection
+
+The biggest challenge was providing a lot of valuable content up front while keeping the page
+clean and concise — the very thing that had made users feel overwhelmed in the first place. I
+got there by identifying the content most important to users through multiple rounds of
+research, arranging it in order of importance and relevance, and applying visual design
+fundamentals to create a layout that helps users focus on what matters most to them.
+
+Looking back, one thing I would have done differently is **bring engineers into the design
+process earlier.** By inviting them to the user research sessions, they would have had more
+background and insight behind my design decisions. That direct experience would have
+prevented some churn when I presented the new designs.
+
+I now bring engineers along with me in my design process, which has helped us move faster
+while improving the overall design — we have a larger pool of ideas.
